@@ -1,0 +1,97 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  font-family: sans;
+  background-color: #ddd;
+}
+
+#proposals, #proposal {
+  min-height: calc(100% - 250px);
+}
+
+#proposals > div {
+  float: left;
+  padding: 10px;
+  margin: 10px;
+  background-color: #fff;
+  border: 1px solid #eee;
+  width: 200px;
+  height: 200px;
+}
+
+#proposal {
+  margin: 10px;
+  width: 700px;
+}
+
+#proposal > h1 {
+  font-size: 2em;
+}
+
+#proposal > #original {
+  text-align: right;
+}
+
+#proposal > #teaser {
+  font-size: 1.5em;
+}
+
+#proposal > #body {
+  font-size: 1em;
+}
+
+a {
+  text-decoration: none;
+}
+
+header {
+  padding-left: 180px;
+  height: 170px;
+  background-color: #844d9a;
+  font-style: italic;
+  background-image: url(logo.png);
+  background-position: 10px 10px;
+  background-repeat: no-repeat;
+  border-bottom: 3px solid #0000ff;
+  margin-bottom: 5px;
+}
+
+header > span {
+  position: absolute;
+  color: #dddd99;
+  top: 30px;
+  left: 200px;
+}
+
+header > a {
+  font-size: 80px;
+  position: absolute;
+  top: 60px;
+}
+
+header a:link, header a:visited {
+  color: #99ff33;
+}
+
+footer {
+  clear: both;
+  padding: 10px;
+  background-color: #111;
+  color: #ccc;
+  font-size: 0.8em;
+}
+
+footer a:link, footer a:visited {
+  color: #0099ff;
+}
+
+footer p {
+  display: inline-block;
+  padding: 0 10px;
+  margin: 2px 0 0 0;
+  border-right: 1px solid #999;
+}
+
+footer p:last-child {
+  border-right: 0;
+}
