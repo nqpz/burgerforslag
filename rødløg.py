@@ -178,6 +178,7 @@ title = proposal['title']
 teaser = proposal['proposalContent']
 body = proposal['remarks']
 
+# Prioritize replacing words that are most used.
 words = find_words(title + ' ' + teaser + ' ' + body)
 random.shuffle(words)
 words.sort(key=lambda t: t[1], reverse=True)
