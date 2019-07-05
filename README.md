@@ -9,5 +9,4 @@ Dependencies: Python 3 and pyquery.
 
 ## TODO
 
-  - Better CSS
-  - More flair
+  - Better translation from borger to burger
