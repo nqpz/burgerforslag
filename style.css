@@ -6,7 +6,7 @@ html, body {
 }
 
 #proposals, #proposal {
-  min-height: calc(100% - 250px);
+  min-height: calc(100% - 249px);
 }
 
 #proposals > div {
@@ -79,6 +79,7 @@ footer {
   background-color: #111;
   color: #ccc;
   font-size: 0.8em;
+  height: 25px;
 }
 
 footer a:link, footer a:visited {
