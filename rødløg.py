@@ -74,6 +74,9 @@ for i in range(3):
 
 _basedir = os.path.dirname(__file__)
 
+# Regarding the nouns and adjectives files: They contain all *unique*
+# words.  For example, 'helt' is not present in any of the files,
+# since it can both be a noun and an adjective.
 def load_nouns():
     kinds = [
         ['navneord-ubestemt_ental-fælleskøn'],
