@@ -37,5 +37,5 @@ Det interessante foregår i `rødløg`.
 
 ## Kontakt
 
-Lav en GitHub-issue eller skriv til `Niels G. W. Serup
-<tomatketchup@burgerforslag.dk>`
+Lav en GitHub-issue eller skriv en email til `Niels G. W. Serup
+<tomatketchup@burgerforslag.dk>`.
