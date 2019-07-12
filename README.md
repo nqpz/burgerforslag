@@ -6,11 +6,13 @@ Gå ind på http://burgerforslag.dk/ og kig rundt omkring!
 ## Opsætning
 
 Kør `get_missing_borgerforslag && update` en gang om dagen for at hente
-alle borgerforslag og generere nye burgerforslag.  Kør `update` for at
-generere nye burgerforslag uden at undersøge om der er nye
-borgerforslag.
+alle borgerforslag og generere nye burgerforslag.
 
-Peg din webserver til `serve`-mappen.  Noget i den her dur:
+Kør `github-web-hook` ved boot som mappens ejer, så siden bliver
+opdateret ved gitskub.
+
+Peg din webserver til `serve`-mappen.  Noget i den her dur hvis du
+bruger nginx:
 
 ```
 server_name burgerforslag.dk www.burgerforslag.dk;
@@ -25,6 +27,12 @@ location / {
 location /se-og-stoet-forslag {
     try_files $uri "${uri}_${args}.html" =404;
 }
+
+location /github-web-hook {
+    proxy_set_header Host $host;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_pass http://localhost:44033;
+}
 ```
 
 Afhængigheder: Python 3 og Python 3-pakken `pyquery`.
@@ -32,7 +40,9 @@ Afhængigheder: Python 3 og Python 3-pakken `pyquery`.
 
 ## Udvikling
 
-Det interessante foregår i scriptet [rist_løg](rist_løg).
+Det interessante foregår i scriptet [rist_løg](rist_løg).  Kør `update`
+for at generere nye burgerforslag uden først at undersøge om der er nye
+borgerforslag (hurtigst).
 
 
 ## Kontakt
