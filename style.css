@@ -56,11 +56,20 @@ header {
   margin-bottom: 5px;
 }
 
-header > span {
+header > #slogan {
   position: absolute;
   color: #dddd99;
   top: 30px;
   left: 200px;
+}
+
+header > #beta {
+  position: absolute;
+  color: #0088ee;
+  top: 70px;
+  left: 20px;
+  font-weight: bold;
+  font-size: 3em;
 }
 
 header > a {
