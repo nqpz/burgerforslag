@@ -42,7 +42,7 @@ replacement_nouns = [
     (None, None, None, 'syltede rødbeder', 'de syltede rødbeder'),
     (None, 'Happy Meal', None, 'Happy Meals', None),
     (None, None, None, 'nuggets', None),
-    ('Whopper', None, None, 'Whoppers', None),
+    ('Whopper', None, 'Whopperen', 'Whoppers', None),
     ('pickle', None, None, 'pickles', None),
     (None, 'løg', 'løget', 'løg', 'løgene'),
     ('salat', None, 'salaten', 'salater', 'salaterne'),
