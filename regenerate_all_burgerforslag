@@ -11,4 +11,4 @@ mkdir -p burgerforslag
 inputs=borgerforslag/*.json
 outputs=$(echo $inputs | sed 's/bo/bu/g')
 
-./rødløg -b $inputs $outputs
+./rist_løg -b $inputs $outputs

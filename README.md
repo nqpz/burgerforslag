@@ -32,7 +32,7 @@ Afhængigheder: Python 3 og Python 3-pakken `pyquery`.
 
 ## Udvikling
 
-Det interessante foregår i `rødløg`.
+Det interessante foregår i scriptet [rist_løg](rist_løg).
 
 
 ## Kontakt
