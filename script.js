@@ -9,7 +9,8 @@ function set_slogan() {
     'Kan jeg bestille en nummer 21 med ekstra ost?',
     'Øøøøøøøøøøøøøøøøøøøh... BURGER!',
     'Så for pape, for at spise den skal jeg gabe!',
-    'Bim, bam, brioche, at spise burger vil jeg også.'
+    'Bim, bam, brioche, at spise burger vil jeg også.',
+    'Dem her stemmer politikerne ikke ned!'
   ],
       slogan = slogans[Math.floor(Math.random() * slogans.length)];
 
