@@ -10,7 +10,7 @@ PORT = 44033
 basedir = os.path.dirname(__file__)
 
 class HookHandler(http.server.BaseHTTPRequestHandler):
-    def do_GET(self):
+    def do_POST(self):
         subprocess.run(['git', '-C', basedir, 'pull'])
         subprocess.run([os.path.join(basedir, 'update')])
 
