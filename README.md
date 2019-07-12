@@ -39,3 +39,11 @@ Det interessante foregår i `rødløg`.
 
 Lav en GitHub-issue eller skriv en email til `Niels G. W. Serup
 <tomatketchup@burgerforslag.dk>`.
+
+
+## Licens (fri software)
+
+Burgerforslag-koden er copyright (C) 2019 Niels G. W. Serup og
+tilgængelig under [GNU Affero General Public License, udgave
+3](https://www.gnu.org/licenses/agpl-3.0.en.html) eller en senere
+udgave.
