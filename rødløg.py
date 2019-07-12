@@ -25,7 +25,7 @@ replacement_nouns = [
     (None, None, None, 'ristede løg', 'de ristede løg'),
     ('bøf', None, 'bøffen', 'bøffer', 'bøfferne'),
     ('bolle', None, 'bollen', 'boller', 'bollerne'),
-    (None, None, None, 'syltede agurker', 'de syltede agurker'),
+    ('syltet agurk', None, 'den syltede agurk', 'syltede agurker', 'de syltede agurker'),
     ('osteskive', None, 'osteskiven', 'osteskiver', 'osteskiverne'),
     ('baconskive', None, 'baconskiven', 'baconskiver', 'baconskiverne'),
     ('vegetarbøf', None, 'vegetarbøffen', 'vegetarbøffer', 'vegetarbøfferne'),
@@ -40,8 +40,19 @@ replacement_nouns = [
     (None, None, 'guacamolen', None, None),
     ('röstibolle', None, 'röstibollen', 'röstiboller', 'röstibollerne'),
     (None, None, None, 'syltede rødbeder', 'de syltede rødbeder'),
-    (None, 'happy meal', None, 'happy meals', None),
+    (None, 'Happy Meal', None, 'Happy Meals', None),
     (None, None, None, 'nuggets', None),
+    ('Whopper', None, None, 'Whoppers', None),
+    ('pickle', None, None, 'pickles', None),
+    (None, 'løg', 'løget', 'løg', 'løgene'),
+    ('salat', None, 'salaten', 'salater', 'salaterne'),
+    (None, 'salatblad', 'salatbladet', 'salatblade', 'salatbladene'),
+    ('Big Mac', None, None, 'Big Macs', None),
+    ('nummer 21', None, None, 'nummer 21', None),
+    ('cheeseburger', None, 'cheeseburgeren', 'cheeseburgere', 'cheeseburgerne'),
+    ('sesambolle', None, 'sesambollen', 'sesamboller', 'sesambollerne'),
+    ('briochebolle', None, 'briochebollen', 'briocheboller', 'briochebollerne'),
+    (None, None, 'den hemmelige dressing', None, None),
 ]
 
 # 0. Ental, fælleskøn
@@ -54,6 +65,7 @@ replacement_adjectives = [
     ('friturestegt', 'friturestegt', 'friturestegte'),
     ('hjemmelavet', 'hjemmelavet', 'hjemmelavede'),
     ('gennemstegt', 'gennemstegt', 'gennemstegte'),
+    ('saltet', 'saltet', 'saltede'),
 ]
 
 replacement_nouns_kind = []
