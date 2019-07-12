@@ -106,7 +106,7 @@ def load_nouns():
     for filenames in kinds:
         kind_nouns = []
         for name in filenames:
-            with open(os.path.join(_basedir, 'navneord', name)) as f:
+            with open(os.path.join(_basedir, 'words', 'navneord', name)) as f:
                 kind_nouns.extend(f.read().strip().split('\n'))
         nouns.append(set(kind_nouns))
     return nouns
@@ -121,7 +121,7 @@ def load_adjectives():
     for filenames in kinds:
         kind_adjectives = []
         for name in filenames:
-            with open(os.path.join(_basedir, 'tillægsord', name)) as f:
+            with open(os.path.join(_basedir, 'words', 'tillægsord', name)) as f:
                 kind_adjectives.extend(f.read().strip().split('\n'))
         adjectives.append(set(kind_adjectives))
     return adjectives
