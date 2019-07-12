@@ -1,4 +1,6 @@
 #!/usr/bin/env python3
+#
+# Get all borgerforslag ids.
 
 import urllib.request
 import json

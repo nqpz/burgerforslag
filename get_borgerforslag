@@ -1,0 +1,32 @@
+#!/usr/bin/env python3
+#
+# Get the core information of a borgerforslag by its URL.
+
+import sys
+import urllib.request
+import json
+
+from pyquery import PyQuery as pq
+
+
+url = sys.argv[1]
+
+with urllib.request.urlopen(url) as f:
+    html = f.read()
+
+d = pq(html)
+
+script = pq(list(d('script[data-module="ProposalEditor"]'))[0]).text()
+data = json.loads(script[script.find('{'):script.rfind('}')+1])
+proposal = data['props']['proposalCreationViewModel']['proposal']
+title = proposal['title']
+teaser = proposal['proposalContent']
+body = proposal['remarks']
+
+print(json.dumps({
+    'title': title.replace('\n', ' '),
+    'teaser': teaser,
+    'body': body,
+    'id': proposal['externalId'],
+    'approved': proposal['approveDate']
+}, sort_keys=True, indent=2, ensure_ascii=False))

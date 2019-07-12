@@ -1,17 +1,22 @@
 #!/usr/bin/env python3
+#
+# Generate burgerforslag text.
+#
+# Simple usage: The sole argument is a path to a borgerforslag json file.
+# Prints the resulting burgerforslag json to standard output.
+#
+# Advanced usage: The first argument is '-i', the next N arguments are input
+# json paths, and the final N arguments are output html paths.  Use this for
+# batch processing.
 
-'''
-Generate text.
-'''
 
 import sys
 import os.path
 import re
 import random
-import urllib.request
 import json
+import copy
 
-from pyquery import PyQuery as pq
 
 # 0. Ubestemt ental, fælleskøn
 # 1. Ubestemt ental, intetkøn
@@ -67,6 +72,8 @@ replacement_adjectives = [
     ('saltet', 'saltet', 'saltede'),
 ]
 
+# -------------------------------------------------------------------
+
 replacement_nouns_kind = []
 for i in range(5):
     ws = []
@@ -111,6 +118,9 @@ def load_nouns():
     return nouns
 
 def load_adjectives():
+    with open(os.path.join(_basedir, 'words', 'tillægsord', 'ignore')) as f:
+        ignore_words = set(f.read().strip().split('\n'))
+
     kinds = [
         ['tillægsord-fælleskøn'],
         ['tillægsord-intetkøn'],
@@ -122,7 +132,7 @@ def load_adjectives():
         for name in filenames:
             with open(os.path.join(_basedir, 'words', 'tillægsord', name)) as f:
                 kind_adjectives.extend(f.read().strip().split('\n'))
-        adjectives.append(set(kind_adjectives))
+        adjectives.append(set(kind_adjectives).difference(ignore_words))
     return adjectives
 
 nouns = load_nouns()
@@ -159,7 +169,9 @@ def fix_case(orig, new):
     else:
         return new
 
-def fix_word(word, word_indices, words):
+def fix_word(word, word_indices, words,
+             replacement_nouns_kind_loc,
+             replacement_adjectives_kind_loc):
     # Check if unique.
     found = False
     for ng in nouns:
@@ -179,14 +191,14 @@ def fix_word(word, word_indices, words):
     # Find replacement.
     for i in range(len(nouns)):
         if word in nouns[i]:
-            replacements = replacement_nouns_kind[i]
+            replacements = replacement_nouns_kind_loc[i]
             if replacements:
                 word_fixed = random.choice(replacements)
                 replacements.remove(word_fixed)
                 return word_fixed
     for i in range(len(adjectives)):
         if word in adjectives[i]:
-            replacements = replacement_adjectives_kind[i]
+            replacements = replacement_adjectives_kind_loc[i]
             if replacements:
                 word_fixed = random.choice(replacements)
                 replacements.remove(word_fixed)
@@ -201,34 +213,49 @@ def fix(conv, s):
             return w
     return re.sub(r'\w+', lambda m: fix_word_conv(m.group(0)), s)
 
-url = sys.argv[1]
+fname = sys.argv[1]
+if fname != '-b':
+    inputs = [fname]
+    outputs = [None]
+else:
+    args = sys.argv[2:]
+    inputs = args[:len(args) // 2]
+    outputs = args[len(args) // 2:]
 
-with urllib.request.urlopen(url) as f:
-    html = f.read()
+for input_json_file, output_json_file in zip(inputs, outputs):
+  with open(input_json_file) as f:
+      borgerforslag = json.load(f)
 
-d = pq(html)
+  title = borgerforslag['title']
+  teaser = borgerforslag['teaser']
+  body = borgerforslag['body']
 
-script = pq(list(d('script[data-module="ProposalEditor"]'))[0]).text()
-data = json.loads(script[script.find('{'):script.rfind('}')+1])
-proposal = data['props']['proposalCreationViewModel']['proposal']
-title = proposal['title']
-teaser = proposal['proposalContent']
-body = proposal['remarks']
+  # Prioritize replacing words that are most used.
+  words_orig, words = find_words(title + ' ' + teaser + ' ' + body)
 
-# Prioritize replacing words that are most used.
-words_orig, words = find_words(title + ' ' + teaser + ' ' + body)
+  random.shuffle(words)
+  words.sort(key=lambda t: t[2], reverse=True)
 
-random.shuffle(words)
-words.sort(key=lambda t: t[2], reverse=True)
+  replacement_nouns_kind_loc = copy.deepcopy(replacement_nouns_kind)
+  replacement_adjectives_kind_loc = copy.deepcopy(replacement_adjectives_kind)
 
-conv = {}
-for w, w_indices, _ in words:
-    fixed = fix_word(w, w_indices, words_orig)
-    if fixed:
-        conv[w] = fixed
+  conv = {}
+  for w, w_indices, _ in words:
+      fixed = fix_word(w, w_indices, words_orig,
+                       replacement_nouns_kind_loc,
+                       replacement_adjectives_kind_loc)
+      if fixed:
+          conv[w] = fixed
 
-print(json.dumps({
-    'title': fix(conv, title.replace('\n', ' ')),
-    'teaser': fix(conv, teaser),
-    'body': fix(conv, body)
-}, sort_keys=True, indent=2, ensure_ascii=False))
+  res = {
+      'title': fix(conv, title),
+      'teaser': fix(conv, teaser),
+      'body': fix(conv, body),
+      'id': borgerforslag['id'],
+      'approved': borgerforslag['approved']
+  }
+  if output_json_file:
+      with open(output_json_file, 'w') as f:
+          json.dump(res, f, sort_keys=True, indent=2, ensure_ascii=False)
+  else:
+      print(json.dumps(res, sort_keys=True, indent=2, ensure_ascii=False))

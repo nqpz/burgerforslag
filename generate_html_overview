@@ -1,0 +1,33 @@
+#!/usr/bin/env python3
+#
+# Generate the html for the overview page.
+
+import os
+import json
+import html
+import re
+import subprocess
+
+def make_prop(p):
+    return '<div><a href="/se-og-stoet-forslag/?Id={id}">{title}</a></div>'.format(
+        id=p['id'], title=html.unescape(p['title']))
+
+basedir = os.path.dirname(__file__)
+
+fnames = os.listdir(os.path.join(basedir, 'burgerforslag'))
+
+proposals = [json.load(open(os.path.join(basedir, 'burgerforslag', fn)))
+             for fn in fnames]
+proposals.sort(key=lambda p: p['approved'], reverse=True)
+
+proposals = [make_prop(p) for p in proposals]
+
+header = open(os.path.join(basedir, 'templates', 'header.html')).read()
+newest_commit = subprocess.run(['git', '-C', basedir, 'log', '--pretty=format:%h', 'HEAD^..HEAD'],
+                               stdout=subprocess.PIPE).stdout.decode().strip()
+footer = open(os.path.join(basedir, 'templates', 'footer.html')).read().format(
+    newest_commit=newest_commit)
+
+with open(os.path.join(basedir, 'templates', 'forside.html')) as f:
+    print(f.read().format(proposals='\n'.join(proposals),
+                          header=header, footer=footer).rstrip())

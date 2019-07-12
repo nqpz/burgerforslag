@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Regenerate all html.
+
+set -e # Exit on first error.
+
+cd "$(dirname "$0")"
+
+mkdir -p html
+
+inputs=burgerforslag/*.json
+outputs=$(echo $inputs | sed -e 's/burgerforslag/html/g' -e 's/json/html/g')
+
+./generate_html_proposals -b $inputs $outputs
+./generate_html_overview > html/index.html
+
+./update_serve_dir

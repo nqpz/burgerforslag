@@ -1,0 +1,19 @@
+#!/bin/sh
+#
+# Ensure that the serve directory contains all burgerforslag.
+
+set -e # Exit on first error.
+
+cd "$(dirname "$0")"
+
+mkdir -p serve/se-og-stoet-forslag/
+
+ls html | grep -E '[0-9]\.html' | while read fname; do
+    src="../../html/$fname"
+    dest="serve/se-og-stoet-forslag/_Id=FT-$fname"
+    if ! [ -f "$dest" ]; then
+        ln -fs "$src" "$dest"
+    fi
+done
+
+ln -fs ../html/index.html ../style.css ../script.js ../logo.png serve/

@@ -1,0 +1,17 @@
+#!/bin/sh
+#
+# Make sure the borgerforslag cache is up-to-date.
+
+set -e # Exit on first error.
+
+cd "$(dirname "$0")"
+
+mkdir -p borgerforslag
+
+./get_all_ids | while read id; do
+    if ! [ -f borgerforslag/$id.json ]; then
+        url="https://www.borgerforslag.dk/se-og-stoet-forslag/?Id=FT-$id"
+        ./get_borgerforslag $url > borgerforslag/$id.json
+        sleep 1
+    fi
+done

@@ -1,0 +1,14 @@
+#!/bin/sh
+#
+# Regenerate all burgerforslag.  Destructive!
+
+set -e # Exit on first error.
+
+cd "$(dirname "$0")"
+
+mkdir -p burgerforslag
+
+inputs=borgerforslag/*.json
+outputs=$(echo $inputs | sed 's/bo/bu/g')
+
+./rødløg -b $inputs $outputs

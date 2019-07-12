@@ -1,0 +1,16 @@
+#!/bin/sh
+#
+# Update the contents of burgerforslag.dk.
+#
+# Also remember to run ./get_missing_borgerforslag once a day to update the
+# borgerforslag cache.
+
+set -e
+cd "$(dirname "$0")"
+
+# Regenerate all burgerforslag and all html.
+#
+# XXX: At some point change to this to only generate burgerforslag and html for
+# new borgerforslag.
+./regenerate_all_burgerforslag
+./regenerate_all_html

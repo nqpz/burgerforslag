@@ -1,0 +1,56 @@
+#!/usr/bin/env python3
+#
+# Generate the html for a burgerforslag.
+#
+# Simple usage: The sole argument is the path to a burgerforslag-conforming json
+# file.  Prints the html to standard output.
+#
+# Advanced usage: The first argument is '-b', the next N arguments are input
+# json paths, and the final N arguments are output html paths.  Use this for
+# batch processing.
+
+import sys
+import os.path
+import json
+import html
+import re
+import subprocess
+
+def make_paragraphs(s):
+    return '\n'.join('<p>{}</p>'.format(line) for line in s.split('\n'))
+
+basedir = os.path.dirname(__file__)
+
+header = open(os.path.join(basedir, 'templates', 'header.html')).read()
+newest_commit = subprocess.run(['git', '-C', basedir, 'log', '--pretty=format:%h', 'HEAD^..HEAD'],
+                               stdout=subprocess.PIPE).stdout.decode().strip()
+footer = open(os.path.join(basedir, 'templates', 'footer.html')).read().format(
+    newest_commit=newest_commit)
+
+with open(os.path.join(basedir, 'templates', 'side.html')) as f:
+    page_template = f.read()
+
+fname = sys.argv[1]
+if fname != '-b':
+    with open(fname) as f:
+        data = json.load(f)
+
+    out = page_template.format(title=html.escape(data['title']), id=data['id'],
+                               teaser=make_paragraphs(html.escape(data['teaser'])),
+                               body=make_paragraphs(html.escape(data['body'])),
+                               header=header, footer=footer)
+    print(out)
+else:
+    args = sys.argv[2:]
+    inputs = args[:len(args) // 2]
+    outputs = args[len(args) // 2:]
+    for i, o in zip(inputs, outputs):
+        with open(i) as f:
+            data = json.load(f)
+
+        out = page_template.format(title=html.escape(data['title']), id=data['id'],
+                                   teaser=make_paragraphs(html.escape(data['teaser'])),
+                                   body=make_paragraphs(html.escape(data['body'])),
+                                   header=header, footer=footer)
+        with open(o, 'w') as f:
+            f.write(out)
