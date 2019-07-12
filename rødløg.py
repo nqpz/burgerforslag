@@ -10,7 +10,6 @@ import re
 import random
 import urllib.request
 import json
-import collections
 
 from pyquery import PyQuery as pq
 
@@ -129,8 +128,28 @@ def load_adjectives():
 nouns = load_nouns()
 adjectives = load_adjectives()
 
+def is_noun(words, i):
+    try:
+        word = words[i]
+    except IndexError:
+        return False
+    for ng in nouns:
+        if word in ng:
+            return True
+    return False
+
 def find_words(s):
-    return list(collections.Counter(re.findall(r'\w+', s.lower())).items())
+    words = list(re.findall(r'\w+', s.lower()))
+    d = {}
+    for w, i in zip(words, range(len(words))):
+        try:
+            e = d[w]
+        except KeyError:
+            d[w] = [set(), 0]
+            e = d[w]
+        e[0].add(i)
+        e[1] += 1
+    return words, list((w, w_aux[0], w_aux[1]) for w, w_aux in d.items())
 
 def fix_case(orig, new):
     if all(c.isupper() for c in orig):
@@ -140,7 +159,7 @@ def fix_case(orig, new):
     else:
         return new
 
-def fix_word(word):
+def fix_word(word, word_indices, words):
     # Check if unique.
     found = False
     for ng in nouns:
@@ -152,7 +171,10 @@ def fix_word(word):
         if word in ag:
             if found:
                 return
-            found = True
+            if any(is_noun(words, i + 1) for i in word_indices):
+                found = True
+    if not found:
+        return
 
     # Find replacement.
     for i in range(len(nouns)):
@@ -194,13 +216,14 @@ teaser = proposal['proposalContent']
 body = proposal['remarks']
 
 # Prioritize replacing words that are most used.
-words = find_words(title + ' ' + teaser + ' ' + body)
+words_orig, words = find_words(title + ' ' + teaser + ' ' + body)
+
 random.shuffle(words)
-words.sort(key=lambda t: t[1], reverse=True)
+words.sort(key=lambda t: t[2], reverse=True)
 
 conv = {}
-for w, _ in words:
-    fixed = fix_word(w)
+for w, w_indices, _ in words:
+    fixed = fix_word(w, w_indices, words_orig)
     if fixed:
         conv[w] = fixed
 
