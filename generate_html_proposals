@@ -21,6 +21,7 @@ def make_paragraphs(s):
 
 basedir = os.path.dirname(__file__)
 
+head = open(os.path.join(basedir, 'templates', 'head.html')).read()
 header = open(os.path.join(basedir, 'templates', 'header.html')).read()
 newest_commit = subprocess.run(['git', '-C', basedir, 'log', '--pretty=format:%h', 'HEAD^..HEAD'],
                                stdout=subprocess.PIPE).stdout.decode().strip()
@@ -38,7 +39,7 @@ if fname != '-b':
     out = page_template.format(title=html.escape(data['title']), id=data['id'],
                                teaser=make_paragraphs(html.escape(data['teaser'])),
                                body=make_paragraphs(html.escape(data['body'])),
-                               header=header, footer=footer)
+                               head=head, header=header, footer=footer)
     print(out)
 else:
     args = sys.argv[2:]
@@ -51,6 +52,6 @@ else:
         out = page_template.format(title=html.escape(data['title']), id=data['id'],
                                    teaser=make_paragraphs(html.escape(data['teaser'])),
                                    body=make_paragraphs(html.escape(data['body'])),
-                                   header=header, footer=footer)
+                                   head=head, header=header, footer=footer)
         with open(o, 'w') as f:
             f.write(out)

@@ -22,6 +22,7 @@ proposals.sort(key=lambda p: p['approved'], reverse=True)
 
 proposals = [make_prop(p) for p in proposals]
 
+head = open(os.path.join(basedir, 'templates', 'head.html')).read()
 header = open(os.path.join(basedir, 'templates', 'header.html')).read()
 newest_commit = subprocess.run(['git', '-C', basedir, 'log', '--pretty=format:%h', 'HEAD^..HEAD'],
                                stdout=subprocess.PIPE).stdout.decode().strip()
@@ -30,4 +31,4 @@ footer = open(os.path.join(basedir, 'templates', 'footer.html')).read().format(
 
 with open(os.path.join(basedir, 'templates', 'forside.html')) as f:
     print(f.read().format(proposals='\n'.join(proposals),
-                          header=header, footer=footer).rstrip())
+                          head=head, header=header, footer=footer).rstrip())

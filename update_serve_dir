@@ -16,4 +16,4 @@ ls html | grep -E '[0-9]\.html' | while read fname; do
     fi
 done
 
-ln -fs ../html/index.html ../style.css ../script.js ../logo.png serve/
+ln -fs ../html/index.html ../style.css ../script.js ../logo.png ../favicon.png serve/
