@@ -3,7 +3,15 @@
 Gå ind på http://burgerforslag.dk/ og kig rundt omkring!
 
 
-## Opsætning
+## Udvikling
+
+Det interessante foregår i scriptet [rist_løg](rist_løg).  Kør for
+eksempel `./rist_løg borgerforslag/00005.json` for at generere et
+burgerforslag på standard out (kræver at du har kørt
+`./get_missing_borgerforslag`).
+
+
+## Opsætning af selve siden
 
 Kør `get_missing_borgerforslag && update` en gang om dagen for at hente
 alle borgerforslag og generere nye burgerforslag.
@@ -36,14 +44,6 @@ location /github-web-hook {
 ```
 
 Afhængigheder: Python 3 og Python 3-pakken `pyquery`.
-
-
-## Udvikling
-
-Det interessante foregår i scriptet [rist_løg](rist_løg).  Kør for
-eksempel `./rist_løg borgerforslag/00005.json` for at generere et
-burgerforslag på standard out (kræver at du har kørt
-`./get_missing_borgerforslag`).
 
 
 ## Kontakt
