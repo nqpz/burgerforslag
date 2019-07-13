@@ -3,7 +3,7 @@
 # Generate burgerforslag text.
 #
 # Simple usage: The sole argument is a path to a borgerforslag json file.
-# Prints the resulting burgerforslag json to standard output.
+# Prints the resulting burgerforslag prettified to standard output.
 #
 # Advanced usage: The first argument is '-i', the next N arguments are input
 # json paths, and the final N arguments are output html paths.  Use this for
@@ -16,6 +16,7 @@ import re
 import random
 import json
 import copy
+import textwrap
 
 
 # 0. Ubestemt ental, fælleskøn
@@ -258,4 +259,7 @@ for input_json_file, output_json_file in zip(inputs, outputs):
       with open(output_json_file, 'w') as f:
           json.dump(res, f, sort_keys=True, indent=2, ensure_ascii=False)
   else:
-      print(json.dumps(res, sort_keys=True, indent=2, ensure_ascii=False))
+      fill = lambda s: '\n'.join(textwrap.fill(line) for line in s.split('\n'))
+      print('Title:\n{line}\n{title}\n\nTeaser:\n{line}\n{teaser}\n\nBody:\n{line}\n{body}'.format(
+          line='-' * 70, title=fill(res['title']),
+          teaser=fill(res['teaser']), body=fill(res['body'])))
