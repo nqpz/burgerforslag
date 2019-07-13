@@ -43,7 +43,7 @@ Afhængigheder: Python 3 og Python 3-pakken `pyquery`.
 Det interessante foregår i scriptet [rist_løg](rist_løg).  Kør for
 eksempel `./rist_løg borgerforslag/00005.json` for at generere et
 burgerforslag på standard out (kræver at du har kørt
-`get_missing_borgerforslag`).
+`./get_missing_borgerforslag`).
 
 
 ## Kontakt
