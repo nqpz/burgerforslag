@@ -1,5 +1,7 @@
 # burgerforslag
 
+[![Build Status](https://travis-ci.org/nqpz/burgerforslag.svg?branch=master)](https://travis-ci.org/nqpz/burgerforslag)
+
 Gå ind på http://burgerforslag.dk/ og kig rundt omkring!
 
 

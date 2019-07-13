@@ -1,0 +1,7 @@
+language: minimal
+
+before_install:
+ - ./travis/generate_test_borgerforslag
+
+script:
+  - ./update

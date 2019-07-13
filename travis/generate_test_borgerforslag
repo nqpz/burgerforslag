@@ -1,0 +1,66 @@
+#!/bin/sh
+#
+# Generate meaningless borgerforslag for use in infrastructure tests.
+#
+# Only run this from Travis as it uses the same directory as the real
+# borgerforslag.
+
+set -e # Exit on first error.
+
+cd "$(dirname "$0")/.."
+
+mkdir -p borgerforslag
+
+rand() {
+    n="$3"
+    if ! [ "$n" ]; then
+        n=1
+    fi
+    seq $1 $2 | sort -R | head -n $n
+}
+
+rand0() {
+    digits="$1"
+    shift
+    printf %0"$digits"d $(rand "$@")
+}
+
+cat words/navneord/navneord* words/tillægsord/tillægsord* \
+    | sort -R \
+    | {
+    for id in $(rand 1 4000 $(rand 1 100)); do
+        id5=$(printf "%05d" $id)
+        output=borgerforslag/$id5.json
+
+        title_length=$(rand 3 50)
+        teaser_length=$(rand 20 100)
+        body_length=$(rand 100 300)
+        approved=$(rand 2018 2019)-$(rand0 2 1 12)-$(rand0 2 1 30)T$(rand0 2 0 23):$(rand0 2 0 59):$(rand0 2 0 60).$(rand0 3 0 999)
+
+        title=''
+        for i in $(seq 1 $title_length); do
+            read word
+            title="$title $word"
+        done
+        teaser=''
+        for i in $(seq 1 $teaser_length); do
+            read word
+            teaser="$teaser $word"
+        done
+        body=''
+        for i in $(seq 1 $body_length); do
+            read word
+            body="$body $word"
+        done
+
+            cat > "$output" <<EOF
+{
+  "approved": "$approved",
+  "body": "$body",
+  "id": "FT-$id5",
+  "teaser": "$teaser",
+  "title": "$title"
+}
+EOF
+    done
+}
