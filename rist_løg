@@ -242,11 +242,20 @@ for input_json_file, output_json_file in zip(inputs, outputs):
 
   conv = {}
   for w, w_indices, _ in words:
-      fixed = fix_word(w, w_indices, words_orig,
-                       replacement_nouns_kind_loc,
-                       replacement_adjectives_kind_loc)
-      if fixed:
-          conv[w] = fixed
+      if 'borger' in w:
+          conv[w] = w.replace('borger', 'burger')
+      elif w.startswith('lov'):
+          conv[w] = w.replace('lov', 'menu', 1)
+      elif w.endswith('lov'):
+          conv[w] = re.sub(r'lov$', 'menu', w)
+      elif w.endswith('loven'):
+          conv[w] = re.sub(r'loven$', 'menuen', w)
+      else:
+          fixed = fix_word(w, w_indices, words_orig,
+                           replacement_nouns_kind_loc,
+                           replacement_adjectives_kind_loc)
+          if fixed:
+              conv[w] = fixed
 
   res = {
       'title': fix(conv, title),
