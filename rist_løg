@@ -250,6 +250,8 @@ for input_json_file, output_json_file in zip(inputs, outputs):
           conv[w] = re.sub(r'lov$', 'menu', w)
       elif w.endswith('loven'):
           conv[w] = re.sub(r'loven$', 'menuen', w)
+      elif w.endswith('lovens'):
+          conv[w] = re.sub(r'lovens$', 'menuens', w)
       else:
           fixed = fix_word(w, w_indices, words_orig,
                            replacement_nouns_kind_loc,
