@@ -16,7 +16,7 @@ ids = []
 for i in infrange():
     req = urllib.request.Request(
         'https://www.borgerforslag.dk/api/proposals/search',
-        data=json.dumps({'filter': 'all', 'sortOrder': 'latest',
+        data=json.dumps({'filter': 'all', 'sortOrder': 'NewestFirst',
                          'searchQuery': '', 'pageNumber': str(i),
                          'pageSize': '100'}).encode('utf-8'),
         headers={'Content-Type': 'text/json'})
